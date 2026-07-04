@@ -1,22 +1,7 @@
-import pytest  # Импортируем pytest
-from playwright.sync_api import sync_playwright, Page, \
-    Playwright  # Имопртируем класс страницы, будем использовать его для аннотации типов
-
-"""
-@pytest.fixture  # Объявляем фикстуру, по умолчанию скоуп function, то что нам нужно
-def chromium_page() -> Page:  # Аннотируем возвращаемое фикстурой значение
-    # Ниже идет инициализация и открытие новой страницы
-    with sync_playwright() as playwright:
-        # Запускаем браузер
-        browser = playwright.chromium.launch(headless=False)
-        # Передаем страницу для использования в тесте
-        yield browser.new_page()
-        # Закрываем браузер после выполнения тестов
-        browser.close()
-"""
+import pytest
+from playwright.sync_api import Page, Playwright  # Имопртируем класс страницы, будем использовать его для аннотации типов
 
 
-# пример использования плагина pytest-playwright для создания фикстуры выше
 @pytest.fixture
 def chromium_page(playwright: Playwright) -> Page:
     browser = playwright.chromium.launch(headless=False)

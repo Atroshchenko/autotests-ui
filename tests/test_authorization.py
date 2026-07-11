@@ -1,18 +1,24 @@
 from playwright.sync_api import expect, Page
 import pytest
 
+
 @pytest.mark.regression
 @pytest.mark.authorization
-def test_wrong_email_or_password_authorization(chromium_page: Page):
+@pytest.mark.parametrize('email, password', [
+    ('user.name@gmail.com', 'password'),
+    ('user.name@gmail.com', '  '),
+    ('  ', 'password')
+])
+def test_wrong_email_or_password_authorization(chromium_page: Page, email: str, password: str):
         chromium_page.goto("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/login")
 
         # email_input = page.locator('//div[@data-testid="login-form-email-input"]//div//input')
         # ниже пример более простой записи
         email_input = chromium_page.get_by_test_id('login-form-email-input').locator('input')
-        email_input.fill('user.name@gmail.com')
+        email_input.fill(email)
 
         password_input = chromium_page.get_by_test_id('login-form-password-input').locator('input')
-        password_input.fill('password')
+        password_input.fill(password)
 
         # XPath в строке ниже можно упростить, если в коде есть специальные атрибуты для тестировщиков
         # login_button = page.locator('//button[@data-testid="login-page-login-button"]')
